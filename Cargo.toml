@@ -1,9 +1,10 @@
 [package]
 name = "architectury"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 
 [dependencies]
+pretty_assertions = { version = "1", optional = true }
 color-eyre = { version = "0.6", optional = true }
 tracing = { version = "0.1", optional = true }
 tracing-error = { version = "0.2", optional = true }
@@ -19,4 +20,6 @@ base-logging = [
     "dep:tracing-subscriber",
 ]
 
-all = ["base-logging"]
+util-testing = ["dep:pretty_assertions"]
+
+all = ["base-logging", "util-testing"]

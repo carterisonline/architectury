@@ -1,5 +1,22 @@
 pub mod prelude;
 
+#[macro_export]
+macro_rules! tests {
+    ($($fn: ident $block: block)+) => {
+        #[cfg(test)]
+        pub mod tests {
+            use architectury::prelude::*;
+            $(
+                #[test]
+                fn $fn() {
+                    architectury::init();
+                    $block
+                }
+            )+
+        }
+    };
+}
+
 pub fn init() {
     #[cfg(feature = "base-logging")]
     {
