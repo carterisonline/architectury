@@ -2,10 +2,14 @@ pub mod prelude;
 
 #[macro_export]
 macro_rules! tests {
-    ($($fn: ident $block: block)+) => {
+    ($(use $import: path);*; $($fn: ident $block: block)+) => {
         #[cfg(test)]
         pub mod tests {
             use architectury::prelude::*;
+            use architectury::prelude::{assert_eq, assert_ne, assert_str_eq};
+            $(
+                use $import;
+            );*
             $(
                 #[test]
                 fn $fn() {
@@ -15,6 +19,10 @@ macro_rules! tests {
             )+
         }
     };
+
+    ($($fn: ident $block: block)+) => {
+        tests!{; $($fn $block)+}
+    }
 }
 
 pub fn init() {
