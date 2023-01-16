@@ -1,6 +1,9 @@
 [package]
 name = "architectury"
-version = "0.2.0"
+description = "A fully featured runtime for Rust"
+authors = ["Carter Reeb <me@carteris.online>"]
+repository = "https://github.com/carterisonline/architectury"
+version = "0.3.0"
 edition = "2021"
 
 [dependencies]
@@ -11,15 +14,18 @@ tracing-error = { version = "0.2", optional = true }
 tracing-subscriber = { version = "0.3", optional = true, features = [
     "env-filter",
 ] }
+rayon = { version = "1", optional = true }
+oorandom = { version = "11", optional = true }
+once_cell = { version = "1", optional = true }
 
 [features]
-base-logging = [
+default = ["assert", "log", "green-threads", "rng"]
+log = [
     "dep:color-eyre",
     "dep:tracing",
     "dep:tracing-error",
     "dep:tracing-subscriber",
 ]
-
-util-testing = ["dep:pretty_assertions"]
-
-all = ["base-logging", "util-testing"]
+assert = ["dep:pretty_assertions"]
+green-threads = ["dep:rayon", "dep:once_cell"]
+rng = ["dep:oorandom", "dep:once_cell"]

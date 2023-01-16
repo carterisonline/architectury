@@ -1,3 +1,19 @@
+#[cfg(feature = "green-threads")]
+pub mod gt;
+
+#[cfg(feature = "rng")]
+pub mod rng;
+
+#[cfg(feature = "log")]
+pub use color_eyre as log;
+
+#[cfg(feature = "log")]
+pub mod tracing {
+    pub use tracing::*;
+    pub use tracing_error as error;
+    pub use tracing_subscriber as subscriber;
+}
+
 pub mod prelude;
 
 #[macro_export]
@@ -23,10 +39,20 @@ macro_rules! tests {
     ($($fn: ident $block: block)+) => {
         tests!{; $($fn $block)+}
     }
+
 }
 
+#[cfg(feature = "log")]
+#[macro_export]
+macro_rules! debug {
+    ($($tt:tt)*) => {
+        log
+    };
+}
+
+/// Initializes the Architectury runtime.
 pub fn init() {
-    #[cfg(feature = "base-logging")]
+    #[cfg(feature = "log")]
     {
         use tracing_error::ErrorLayer;
         use tracing_subscriber::prelude::*;
