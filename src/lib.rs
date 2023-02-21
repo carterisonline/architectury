@@ -1,5 +1,10 @@
+extern crate self as architectury;
+
 #[cfg(feature = "green-threads")]
 pub mod gt;
+
+#[cfg(feature = "coreutils")]
+pub mod coreutils;
 
 #[cfg(feature = "rng")]
 pub mod rng;
@@ -20,8 +25,10 @@ pub mod prelude;
 macro_rules! tests {
     ($(use $import: path);*; $($fn: ident $block: block)+) => {
         #[cfg(test)]
-        pub mod tests {
+        mod tests {
+            #[allow(unused_imports)]
             use architectury::prelude::*;
+            #[allow(unused_imports)]
             use architectury::prelude::{assert_eq, assert_ne, assert_str_eq};
             $(
                 use $import;
@@ -38,8 +45,7 @@ macro_rules! tests {
 
     ($($fn: ident $block: block)+) => {
         tests!{; $($fn $block)+}
-    }
-
+    };
 }
 
 #[cfg(feature = "log")]

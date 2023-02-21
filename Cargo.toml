@@ -3,7 +3,7 @@ name = "architectury"
 description = "A fully featured runtime for Rust"
 authors = ["Carter Reeb <me@carteris.online>"]
 repository = "https://github.com/carterisonline/architectury"
-version = "0.3.0"
+version = "0.4.0"
 edition = "2021"
 
 [dependencies]
@@ -19,7 +19,7 @@ oorandom = { version = "11", optional = true }
 once_cell = { version = "1", optional = true }
 
 [features]
-default = ["assert", "log", "green-threads", "rng"]
+default = ["assert", "log", "green-threads", "rng", "coreutils"]
 log = [
     "dep:color-eyre",
     "dep:tracing",
@@ -29,3 +29,4 @@ log = [
 assert = ["dep:pretty_assertions"]
 green-threads = ["dep:rayon", "dep:once_cell"]
 rng = ["dep:oorandom", "dep:once_cell"]
+coreutils = []
