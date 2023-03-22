@@ -77,4 +77,26 @@ pub fn init() {
 
         color_eyre::install().expect("Failed to initialize color_eyre");
     }
+
+    #[cfg(feature = "dotenv")]
+    {
+        dotenvy::dotenv().unwrap_or_else(|e| match e {
+            dotenvy::Error::Io(e) => {
+                if e.kind() == std::io::ErrorKind::NotFound {
+                    std::path::PathBuf::new()
+                } else {
+                    panic!("{e}")
+                }
+            }
+            e => panic!("{e}"),
+        });
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn init_runs_with_all_features() {
+        architectury::init();
+    }
 }

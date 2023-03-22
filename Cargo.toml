@@ -17,9 +17,10 @@ tracing-subscriber = { version = "0.3", optional = true, features = [
 rayon = { version = "1", optional = true }
 oorandom = { version = "11", optional = true }
 once_cell = { version = "1", optional = true }
+dotenvy = { version = "0.15", optional = true }
 
 [features]
-default = ["assert", "log", "green-threads", "rng", "coreutils"]
+default = ["assert", "log", "green-threads", "rng", "coreutils", "dotenv"]
 log = [
     "dep:color-eyre",
     "dep:tracing",
@@ -30,3 +31,4 @@ assert = ["dep:pretty_assertions"]
 green-threads = ["dep:rayon", "dep:once_cell"]
 rng = ["dep:oorandom", "dep:once_cell"]
 coreutils = []
+dotenv = ["dep:dotenvy"]
