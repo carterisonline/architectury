@@ -80,6 +80,19 @@ pub fn init() {
 
     #[cfg(feature = "dotenv")]
     {
+        #[cfg(debug_assertions)]
+        dotenvy::from_filename(".env.dev").unwrap_or_else(|e| match e {
+            dotenvy::Error::Io(e) => {
+                if e.kind() == std::io::ErrorKind::NotFound {
+                    std::path::PathBuf::new()
+                } else {
+                    panic!("{e}")
+                }
+            }
+            e => panic!("{e}"),
+        });
+
+        #[cfg(not(debug_assertions))]
         dotenvy::dotenv().unwrap_or_else(|e| match e {
             dotenvy::Error::Io(e) => {
                 if e.kind() == std::io::ErrorKind::NotFound {
